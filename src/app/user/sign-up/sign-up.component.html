@@ -1,0 +1,69 @@
+<div class="py-4 border border-gray-100 px-16 w-1/2 relative top-1/2 bg-white transform -translate-y-2/4 rounded-md shadow-xl mx-auto">
+
+    <div class="divide-y divide-solid divide-gray-100">
+        <div>
+            <div class="w-full  py-4">
+                <img src="../assets/images/logo.svg" class="w-24 pb-4" alt="logo">
+                <span class="mat-h2 text-gray-500 tracking-wide font-normal">Gestion des contacts</span>
+            </div>
+            
+        </div>
+        <div class="pt-2">
+            <div>
+                <p class="mat-h3 mat-h2 text-gray-600">Bienvenue sur <strong>ZORO Innovation Inc.</strong> Contact Management Suit.
+                    Votre outil de gestion des contacts moderne.
+                </p>
+            </div>
+            <div class="flex mt-4 center-content">
+                <div class=" flex flex-col items-center">
+                    <img class="w-1/2 flex-box mb-4" src="../assets/images/shield.svg" alt="shield">
+                    <p class="mat-small text-center">Veuillez remplir le formulaire ci-contre pour vous inscrire</p>
+                </div>
+                <div class=" w-3/4 pl-2 " [formGroup]="userForm">
+
+                    <mat-form-field class="w-full" appearance="outline">
+                        <mat-label>Nom d'utilisateur</mat-label>
+                        <input formControlName="username" matInput placeholder="my-awesome-psuedo">
+                        <mat-icon color="accent" matPrefix>security</mat-icon>
+                        <mat-error *ngIf="userNameIsRequiredError">Le nom d'utilisateur est <strong>requis</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="w-full" appearance="outline">
+                        <mat-label>Nom complet</mat-label>
+                        <input formControlName="name" matInput placeholder="Mugisho Umba Georges">
+                        <mat-icon color="accent" matPrefix>person</mat-icon>
+                        <mat-error *ngIf="nameIsRequiredError">Le nom est <strong>requis</strong></mat-error>
+                    </mat-form-field>
+                    <div class="full flex flex-row">
+                        <mat-form-field class="flex-1 mr-1 w-1/3" appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input formControlName="password" matInput placeholder="1234">
+                            <mat-icon color="accent" matPrefix>lock</mat-icon>
+                            <mat-error *ngIf="passwordIsRequiredError">Let mot de passe est <strong>requis</strong>
+                            </mat-error>
+                            <mat-error *ngIf="passwordMinLengthError">Au moins <strong>4 caratères</strong></mat-error>
+                            <mat-error *ngIf="passwordMatchToError">Les deux mots de passe <strong>ne
+                                correspondent
+                                pas</strong></mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="flex-1 ml-1 w-1/3" appearance="outline">
+                            <mat-label>Confirmer</mat-label>
+                            <input formControlName="confirmPassword" matInput placeholder="1234">
+                            <mat-icon color="accent" matPrefix>lock_outline</mat-icon>
+                            <mat-error *ngIf="confirmPasswordMatchToError">Les deux mots de passe <strong>ne
+                                    correspondent
+                                    pas</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-row space-x-4 w-full justify-end py-4">
+                        
+                            <button [disabled]="!userForm.valid" (click)="signUp()" mat-raised-button color="primary">S'inscrire</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-row space-x-4 w-full py-4">
+            <button class="box mr-4" routerLink="/" mat-button color="primary" >J'ai déjà un compte</button>
+        </div>
+    </div>
+</div>

@@ -1,11 +1,19 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { UserModule } from "./user/user.module";
 
-
-const routes: Routes = [];
+const routes: Routes = [
+  { path: "", pathMatch: "full", loadChildren: () => UserModule },
+  {
+    path: "contact",
+    loadChildren: ()=>import("./contact/contact.module").then(
+      (m) => m.ContactModule
+    ),
+  },
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,0 +1,176 @@
+<div [formGroup]="contactForm" class="p-8 z-0 pt-20 w-full">
+
+    <!--Names-->
+    <h6 class="form-intro text-gray-600">Noms</h6>
+    <div class="flex flex-row items-start justify-between">
+        <mat-icon class="mt-5" color="accent">person</mat-icon>
+        <div [formGroup]="namesControlsList[0]" class="w-3/4">
+            <mat-form-field class="w-full">
+                <mat-label>Nom</mat-label>
+                <input formControlName="givenName" required matInput placeholder="Nzuzi">
+                <mat-error *ngIf="givenNameRequiredError">Le nom est <strong>requis</strong></mat-error>
+            </mat-form-field>
+            <div class="flex flex-row justify-between w-full">
+                <mat-form-field class="w-2/5">
+                    <mat-label>Post-Nom</mat-label>
+                    <input formControlName="familyName" matInput placeholder="Nzuzi">
+                </mat-form-field>
+                <mat-form-field class="w-2/5">
+                    <mat-label>Prenom</mat-label>
+                    <input formControlName="middleName" matInput placeholder="Nzuzi">
+                </mat-form-field>
+            </div>
+
+        </div>
+        <button class="invisible" mat-icon-button color="primary" aria-label="Example icon button with a menu icon">
+            <mat-icon>add</mat-icon>
+        </button>
+
+    </div>
+
+    <!--Profession-->
+    <h6 class="form-intro text-gray-600">Profession</h6>
+    <div class="flex flex-row items-start justify-between">
+        <mat-icon class="mt-5" color="accent">work</mat-icon>
+        <div  [formGroup]="organizationsControlsList[0]" class="w-3/4">
+            <mat-form-field class="w-full">
+                <mat-label>Organisation</mat-label>
+                <input formControlName="name" required matInput placeholder="Zoro Innovation Inc.">
+                <mat-error *ngIf="organizationNameRequiredError">Le nom de l'organisation est <strong>réquis</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-label>Département</mat-label>
+                <input formControlName="department" matInput placeholder="I.T.">
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-label>Fonction</mat-label>
+                <input formControlName="title" required matInput placeholder="I.T.">
+                <mat-error *ngIf="titleRequiredError">L'intitulé de la fonction est <strong>réquis</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-label>Adresse</mat-label>
+                <input required formControlName="location" matInput placeholder="10, Quartier, Commune, Ville, Pays">
+            <mat-error *ngIf="locationRequiredError">L'adresse de l'organisation est <strong>réquise</strong></mat-error>
+            </mat-form-field>
+        </div>
+        <button class="invisible" mat-icon-button color="primary" aria-label="Example icon button with a menu icon">
+            <mat-icon>add</mat-icon>
+        </button>
+
+    </div>
+
+    <!--phone-->
+    <h6 class="form-intro text-gray-600">Téléphones</h6>
+    <div class="flex flex-row items-start justify-between">
+        <mat-icon class="mt-5" color="accent">phone</mat-icon>
+        <div class="w-3/4">
+
+            <div *ngFor="let phoneNumberField of phoneControlsList; let i=index"
+            [formGroup]="phoneControlsList[i]"
+                class="flex flex-row w-full items-end justify-between">
+                <mat-form-field class="w-24 flex-1">
+                    <mat-label>Ind. pays</mat-label>
+                    <img matPrefix
+                        [src]="'../../../assets/country-flags/'+(indSelect.value|getFlagFromCountryCode)"
+                        class="w-4 rounded-sm mr-1" alt="flag">
+                    <mat-select  formControlName="countryCode" placeholder="+243"  required #indSelect>
+                        <mat-option *ngFor="let countryCode of COUNTRY_CODES" [value]="countryCode.code">
+                            <div class="flex flex-row items-center space-x-2">
+                                <div class="w-12">
+                                    <img matPrefix class="w-6 rounded-sm" [src]="'../../../assets/country-flags/'+countryCode.flag"
+                                        alt="countryCode.flag">
+                                </div>
+
+                                <span>({{countryCode.code}}) {{countryCode.country}}</span>
+                            </div>
+
+                        </mat-option>
+
+                    </mat-select>
+                    <mat-hint class="flex items-end">
+                        <mat-icon class="relative" matPrefix color="primary">
+                            {{phoneNumberField.value.type|phoneTypeToIcon}}</mat-icon><span
+                            class="ml-3 text-blue-500">{{phoneNumberField.value.type}}</span>
+                    </mat-hint>
+                </mat-form-field>
+                <mat-form-field class="min-w-0">
+                    <mat-label>Télephone</mat-label>
+                    <input minlength="9" type="tel" maxlength="9" pattern="^(?!0.*$).*" formControlName="value" required matInput placeholder="811234567">
+                    <mat-error *ngIf="phoneNumberField.get('value').hasError('required')">Le numéro de téléphone est <strong>réquis</strong></mat-error>
+                    <mat-error *ngIf="phoneNumberField.get('value').hasError('minlength')">Au moins <strong>9 caractères</strong></mat-error>
+                    <mat-error *ngIf="phoneNumberField.get('value').hasError('pattern')">Ne doit pas commencer <strong>le chiffre 0</strong></mat-error>
+
+                </mat-form-field>
+                <button class="block" [disabled]="i == 0" (click)="removePhoneFieldAt(i)" [color]="'warn'"
+                    class="self-end relative bottom-2" mat-icon-button color="primary"
+                    aria-label="Example icon button with a menu icon">
+                    <mat-icon>remove_circle_outline</mat-icon>
+                </button>
+
+            </div>
+        </div>
+        <button [matMenuTriggerFor]="menuAddPhone" [color]="'primary'" class="self-end relative bottom-2"
+            mat-icon-button color="primary" aria-label="Example icon button with a menu icon">
+            <mat-icon>add_circle_outline</mat-icon>
+        </button>
+        <mat-menu #menuAddPhone="matMenu">
+            <button (click)="pushNewPhoneNumber(GooglePhoneType.MOBILE)" mat-menu-item>
+                <mat-icon>phone_iphone</mat-icon>
+                <span>Mobile</span>
+            </button>
+            <button (click)="pushNewPhoneNumber(GooglePhoneType.HOME)" mat-menu-item>
+                <mat-icon>home</mat-icon>
+                <span>Domicile</span>
+            </button>
+            <button (click)="pushNewPhoneNumber(GooglePhoneType.WORK)" mat-menu-item>
+                <mat-icon>phone</mat-icon>
+                <span>Office </span>
+            </button>
+        </mat-menu>
+    </div>
+
+    <!--email-->
+    <h6 class="form-intro text-gray-600">E-mails</h6>
+    <div class="flex  flex-row items-start justify-between">
+        <mat-icon class="mt-5" color="accent">email</mat-icon>
+        <div class="w-3/4">
+
+            <div *ngFor="let emailField of emailControlsList; let i=index"
+            [formGroup]="emailField"
+                class="flex flex-row w-full items-end justify-between">
+                <mat-form-field class="w-full">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="value" matInput placeholder="pseudo@maildomain.com">
+                    <mat-hint class="flex items-end">
+                        <mat-icon class="relative" matPrefix color="primary">
+                            {{emailField.value.type|emailTypeToIcon}}
+                        </mat-icon><span class="ml-3 text-blue-500">{{emailField.value.type}}</span>
+                    </mat-hint>
+                </mat-form-field>
+                <button [disabled]="i == 0" (click)="removeEmailFieldAt(i)" [color]="'warn'"
+                    class="self-end relative bottom-2" mat-icon-button color="primary"
+                    aria-label="Example icon button with a menu icon">
+                    <mat-icon>remove_circle_outline</mat-icon>
+                </button>
+
+            </div>
+        </div>
+        <button [matMenuTriggerFor]="menuAddEmail" [color]="'primary'" class="self-end relative bottom-2"
+            mat-icon-button color="primary" aria-label="Example icon button with a menu icon">
+            <mat-icon>add_circle_outline</mat-icon>
+        </button>
+        <mat-menu #menuAddEmail="matMenu">
+            <button (click)="pushNewEmail(GoogleEmailAddressType.HOME)" mat-menu-item>
+                <mat-icon>home</mat-icon>
+                <span>Domicile</span>
+            </button>
+            <button (click)="pushNewEmail(GoogleEmailAddressType.WORK)" mat-menu-item>
+                <mat-icon>work</mat-icon>
+                <span>Professionelle</span>
+            </button>
+            <button (click)="pushNewEmail(GoogleEmailAddressType.OTHER)" mat-menu-item>
+                <mat-icon>email</mat-icon>
+                <span>Autre </span>
+            </button>
+        </mat-menu>
+    </div>

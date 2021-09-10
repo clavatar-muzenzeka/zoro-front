@@ -1,0 +1,41 @@
+/**
+#contacts-wrapper {
+  --container-width: 100vw;
+}
+*/
+
+#main-content {
+  //margin-left: calc(25% + 1rem);
+  width: calc( (1/2) * var(--container-width) - 3rem  );
+}
+
+#search-bar,
+#pagination,
+#right-pan {
+  width: inherit !important;
+  //background-color: rgb(255, 253, 253);
+  background-color: white;
+}
+
+mat-drawer-container {
+  //background-color: rgb(255, 253, 253);
+  background-color: white;
+}
+
+//TODO
+.small-pan-wrapper {
+  min-width: calc((1 / 4) * var(--container-width));
+  width: calc((1 / 4) * var(--container-width));
+}
+
+.fixed-in-main-wrapper {
+  width: calc((1 / 2) * var(--container-width) - 3rem);
+}
+
+#contact-list {
+  margin-top: 5rem;
+}
+
+.h-no-scroll{
+  height: calc(100vh - 8rem);
+}

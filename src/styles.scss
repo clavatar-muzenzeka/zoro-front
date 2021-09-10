@@ -1,1 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+/**
+* Angular material theming
+*/
+@use '~@angular/material' as mat;
+
+$my-primary: mat.define-palette(mat.$blue-gray-palette, 600);
+$my-accent: mat.define-palette(mat.$lime-palette, 700, 500, 100);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+    ),
+  )
+);
+
+@include mat.core-theme($my-theme);
+@include mat.all-component-themes($my-theme);
+
+/**
+* Tailwind setup
+*/
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+
+/**
+* Traditional sass
+*/
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  //background-color: rgb(255, 253, 253);
+  
+}
+
+*:focus {
+  outline: none !important;
+}
+
+/**
+* Custom scrollbar
+*/
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  z-index: 1000 !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px !important;
+  
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px !important;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 2px !important;
+}

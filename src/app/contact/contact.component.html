@@ -1,0 +1,169 @@
+<div  #contactsWrapper>
+<mat-drawer-container [hasBackdrop]="false" class="example-container" autosize>
+    <mat-drawer #drawer position="end" [autoFocus]="false" class="example-sidenav  w-2/6 z-20" mode="over">
+        <div class="w-full">
+            <div style="width: 33vw">
+                <div style="width: inherit;"
+                    class="h-16 z-10 fixed bg-white flex w-full items-center justify-between space-x-6 px-8 border-b border-gray-100">
+                    <div class="h-16  flex w-4/6 items-center space-x-4">
+                        <div class="h-10 w-10 text-white rounded-full bg-blue-900 text-center leading-10">
+                            CM
+                        </div>
+                        <div class="flex-none">
+                            <span class="mat-h4 text-gray-700 mr-2">Contact Name</span>
+                            <br>
+                            <span class="mat-small text-gray-400">Détails</span>
+                        </div>
+                    </div>
+                    <div class="h-16 flex w-2/6 items-center justify-end space-x-2">
+            
+                        <button *ngIf="false" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button  (click)="requestContactSave()" mat-mini-fab color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                        <button (click)="closeDrawer()" mat-icon-button aria-label="Example icon button with a menu icon">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <app-contact-details ></app-contact-details>
+            </div>
+            
+            
+        </div>
+
+    </mat-drawer>
+    <div (click)="closeDrawer()" class="flex z-10 h-full space-x-4 w-4/6 flex-row">
+        <div class="small-pan-wrapper">
+            <div class="fixed" style="width: inherit;">
+                <app-menu></app-menu>
+            </div>
+        </div>
+        <div id="main-content">
+            <div class="fixed-in-main-wrapper">
+                <div id="search-bar" class="border-b z-10 border-gray-100 h-16 fixed flex flex-row items-center">
+                    <div class="h-10 w-10 pl-2 pr-8 flex flex-row items-center rounded-l-full bg-gray-50">
+                        <mat-icon mat-list-icon color="primary">search</mat-icon>
+                    </div>
+                    <input type="text" placeholder="Tapez votre recherche ici"
+                        class="w-full text-gray-600 h-10 bg-gray-50">
+                    <div role="button" matRipple
+                        class="h-10 pr-8 pl-4 hover:bg-gray-100 font-medium text-blue-900 leading-10 text-center align-middle w-10 rounded-r-full bg-gray-50">
+                        GO
+                    </div>
+                </div>
+            </div>
+
+            <div id="contact-list" [ngClass]="{'h-no-scroll': !scrollable}" class="flex-none z-0 w-full overflow-y-hidden">
+
+                <ng-container *ngFor="let contact of contacts$|async">
+                    <ng-container #contactItem>
+                        <div (click)="openDrawer($event)" role="button" matRipple
+                            class="flex hover:bg-gray-50 rounded-md px-2 py-4 my-2 flex-row justify-between items-center ">
+                            <div class="flex space-x-8 w-full items-center">
+                                <div *ngIf="containerWidth === '100vw'"
+                                    class="h-10 text-white w-10 rounded-full bg-red-900 leading-10 text-center">
+                                    CM
+                                </div>
+                                <div class="flex-none">
+                                    <span class="mat-h4 text-gray-700 mr-2">{{contact.names[0].givenName}}
+                                        {{contact.names[0].familyName}}</span> · <span
+                                        class="text-gray-500 ml-2">{{contact.phoneNumbers[0].countryCode}}{{contact.phoneNumbers[0].value}}</span>
+                                    <br>
+                                    <span class="mat-small text-gray-400">{{contact.organizations[0].title}},
+                                        {{contact.organizations[0].name}}</span>
+                                </div>
+                            </div>
+                    
+                            <div class="flex space-x-2">
+                                <button mat-icon-button color="warn" aria-label="Example icon button with a home icon">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                                <button mat-icon-button color="accent" aria-label="Example icon button with a home icon">
+                                    <mat-icon>star</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+            <div class="fixed-in-main-wrapper">
+                <div id="pagination"  class="fixed bottom-0 h-16 border-t z-10 border-gray-150">
+                    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="small-pan-wrapper">
+            <div id="right-pan" class="fixed">
+
+                <div
+                    class="w-full h-16 border-b border-gray-100 space-x-2 flex flex-1 justify-end flex-row items-center">
+                    <div class="h-8 w-8 text-center text-white align-middle leading-8 rounded-full bg-gray-500">
+                        Cl
+                    </div>
+                    <button [matMenuTriggerFor]="menucontact" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                        <mat-icon>expand_more</mat-icon>
+                    </button>
+                    <mat-menu #menucontact="matMenu">
+                        <div  class="border-b mx-2 mb-2 py-2 px-2 border-gray-100">
+<span class="mat-h4 text-gray-500 mat-small">Authentifié comme</span> <br>
+<span class="text-gray-600">Muzenzeka Claver</span>
+                        </div>
+                        <button  mat-menu-item>
+                            <mat-icon color="primary" >lock</mat-icon>
+                            <span>Modifier le mot de passe</span>
+                        </button>
+                        <button color="'warn'" mat-menu-item>
+                            <mat-icon color="primary">call_made</mat-icon>
+                            <span>Se déconnecter</span>
+                        </button>
+                    </mat-menu>
+                </div>
+                <button class="flex flex-column fixed right-16 top-10" mat-mini-fab color="primary"
+                    aria-label="Example icon button with a bookmark icon">
+                    <mat-icon class="text-white">add</mat-icon>
+                </button>
+                <mat-card class="mr-2">
+                    <mat-card-content><div class="flex flex-row items-center justify-between space-x-4">
+                        <img src="../../assets/images/google-logo.svg" class="h-6" alt="Google logo">
+                        <div>Associez votre compte Google pour une experience complète</div>
+                    </div></mat-card-content>
+                    
+                    <mat-card-actions>
+                        <button color="warn" mat-button>NON MERCI</button>
+                        <button color="primary" mat-button>ASSOCIER</button>
+                    </mat-card-actions>
+
+                </mat-card>
+
+                <mat-card class="mt-4 mr-2">
+                    <mat-card-content>
+                        <div class="flex flex-row items-center justify-between space-x-4">
+                            <mat-icon color="accent">sync</mat-icon>
+                            <div class="mat-small">
+                                Dernière synchronisation le 22 juin 2021, 15h50
+                            </div>
+                        </div>
+                        
+                        
+                    </mat-card-content>
+                
+                </mat-card>
+
+        
+                
+            </div>
+        </div>
+
+    </div>
+
+</mat-drawer-container>
+</div>
+
+
+
